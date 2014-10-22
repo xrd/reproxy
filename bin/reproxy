@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+require 'reproxy'
+include Reproxy
+
+# reproxy = Proxy.new
+Proxy.start( ARGV )
