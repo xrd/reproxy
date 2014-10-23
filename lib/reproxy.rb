@@ -1,5 +1,6 @@
 require "reproxy/version"
 require 'thor'
+require 'dirutils'
 
 module Reproxy
   class Proxy < Thor
@@ -7,6 +8,9 @@ module Reproxy
     desc "record", "Record a proxy session"
     option :name, required: true
     def record
+      python_scripts = File.join(__FILE__,"python_scripts","record")
+      mkdir_p options[:name]
+      # `mitmdump -s "#{python_scripts} #{options[:name]}"
     end
 
     desc "replay", "Replay a proxy session"
