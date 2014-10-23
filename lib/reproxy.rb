@@ -1,6 +1,6 @@
 require "reproxy/version"
 require 'thor'
-require 'dirutils'
+require 'fileutils'
 
 module Reproxy
   class Proxy < Thor
@@ -9,8 +9,16 @@ module Reproxy
     option :name, required: true
     def record
       python_scripts = File.join(__FILE__,"python_scripts","record")
-      mkdir_p options[:name]
+      FileUtils.mkdir_p options[:name]
       # `mitmdump -s "#{python_scripts} #{options[:name]}"
+    end
+
+    desc "init", "Create an initialization file for reproxy (where we find recordings git repos)"
+    option :recordings, required: true
+    def init
+      File.open( File.join( ENV['HOME'], ".reproxyrc" ), "w+" ) do |f|
+        f.write "recordings=#{options[:recordings]}"
+      end
     end
 
     desc "replay", "Replay a proxy session"
